@@ -3,20 +3,20 @@ import { RouterLink, RouterView } from 'vue-router'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import { theme } from 'ant-design-vue'
 
-import { useStorage } from '@/hooks/storage'
 import { useSettingStore } from '@/stores/setting'
 
-const setting = useStorage('setting', {})
+const setting = localStorage.getItem('setting') ? JSON.parse(localStorage.getItem('setting')) : null
 const settingStore = useSettingStore()
 
-if(setting.value.value){
+console.log('setting',setting)
+if(setting){
   //有设置配置，使用本地存储的配置
   console.log('有设置配置，使用本地存储的配置')
-  settingStore.changeSetting(setting.value.value)
+  settingStore.changeSetting(setting)
 }else{
   //没有设置配置，使用默认配置
   console.log('没有设置配置，使用默认配置')
-  setting.update('setting', settingStore.setting)
+  localStorage.setItem('setting', JSON.stringify(settingStore.setting))
 }
 
 

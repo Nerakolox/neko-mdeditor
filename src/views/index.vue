@@ -4,7 +4,7 @@ import Editor from '@/components/mdeditor.vue'
 
 <template>
   <div style="display: flex;justify-content: center;align-items: center;height: 100vh;width: 100vw;">
-    <div style="width: 80vw;height: 80vh;">
+    <div style="width: 90vw;height: 90vh;">
         <Editor style="width: 100%;height: 100%;"/>
     </div>
   </div>

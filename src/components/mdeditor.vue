@@ -1,10 +1,14 @@
 <script setup>
-import { ref } from 'vue'
+import { ref,defineEmits } from 'vue'
 import { MdEditor } from 'md-editor-v3'
 import 'md-editor-v3/lib/style.css'
 
+import FileCommander from '@/components/tools/fileCommander.vue'
+
 import { useSettingStore } from '@/stores/setting'
+
 const settingStore = useSettingStore()
+const emit = defineEmits([])
 
 const text = ref('')
 
@@ -31,24 +35,16 @@ const toolbars = [
     'save',
 ]
 
-const saveModal = ref(false)// 保存弹窗
-const savedName = ref('')// 保存的名称
-const saveAlertNONAME = ref(false)// 是否有未输入名称的错误提示
-const saveAlertERRNAME = ref(false)// 是否有同名文件的错误提示
+
+const fileCommander = ref(null) // 引用 FileCommander 组件
 const onSave = () => {
-    saveModal.value = true
-    console.log('Content saved:', text.value)
-}
-const saveText = () => {
-    if (savedName.value.trim() === '') {
-        saveAlertNONAME.value = true
-        return
+    if (fileCommander.value) {
+        fileCommander.value.showFileList(text.value) // 调用子组件的 showFileList 方法
+        console.log('父组件调用子组件方法，设置值为 fileCommander')
+    }else{
+        console.log('父组件未找到子组件 fileCommander')
     }
-    // 这里可以添加保存逻辑，存储到本地
-    // 若已存在同名文件，则提示错误
-    console.log('Saving text with name:', savedName.value, 'Content:', text.value)
-    saveModal.value = false
-    savedName.value = ''
+    console.log('Content saved:', text.value)
 }
 </script>
 
@@ -63,12 +59,7 @@ const saveText = () => {
     class="neko-editor"
     style="height:100%;"/>
 
-
-    <a-modal v-model:open="saveModal" title="输入一个名称，下次将可以在保存列表中继续编辑" centered @ok="saveText" @cancel="() => { savedName = ''; saveAlertNONAME = false; saveAlertERRNAME = false; }">
-        <a-alert v-if="saveAlertNONAME" message="请输入一个名称！" type="warning" />
-        <a-alert v-if="saveAlertERRNAME" message="重复的名称！" type="error" />
-        <a-input style="margin:1rem 0;" v-model:value="savedName" placeholder="输入一个名称" />
-    </a-modal>
+    <FileCommander ref="fileCommander"/>
 </template>
 
 <style scoped>
@@ -80,6 +71,26 @@ const saveText = () => {
     border-radius: 12px;
     .md-editor-toolbar-item-name{
         font-size:0.6rem !important;
+    }
+    .md-editor-toolbar-item{
+        border-radius:12px;
+        padding: 0.35rem 0.35rem !important;
+    }
+    .md-editor-dropdown-overlay{
+        background:none !important;
+        border-radius: 12px;
+        overflow:hidden;
+    }
+    .md-editor-menu{
+        border-radius: 12px;
+        overflow:hidden;
+    }
+    .md-editor-table-shape{
+        border-radius: 12px;
+        overflow:hidden;
+    }
+    .md-editor-table-shape-col{
+        border-radius: 12px !important;
     }
 }
 </style>
