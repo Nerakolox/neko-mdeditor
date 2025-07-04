@@ -46,12 +46,17 @@ const onSave = () => {
     }
     console.log('Content saved:', text.value)
 }
+
+const onChange = (e) => {
+    localStorage.setItem('fileTemp',e)
+}
 </script>
 
 <template>
     <MdEditor v-model="text"
     :showToolbarName="true"
     @onSave="onSave"
+    @onChange="onChange"
     :toolbars="toolbars"
     :theme="settingStore.setting.theme"
     :previewTheme="settingStore.setting.editorTheme.previewTheme"
