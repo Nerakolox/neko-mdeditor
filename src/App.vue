@@ -11,11 +11,11 @@ const settingStore = useSettingStore()
 console.log('setting',setting)
 if(setting){
   //有设置配置，使用本地存储的配置
-  console.log('有设置配置，使用本地存储的配置')
+  // console.log('有设置配置，使用本地存储的配置')
   settingStore.changeSetting(setting)
 }else{
   //没有设置配置，使用默认配置
-  console.log('没有设置配置，使用默认配置')
+  // console.log('没有设置配置，使用默认配置')
   localStorage.setItem('setting', JSON.stringify(settingStore.setting))
 }
 

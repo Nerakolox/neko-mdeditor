@@ -40,7 +40,7 @@ defineExpose({
       <div style="padding-bottom: 10px;margin: 6px 0;">
         <strong>工作台</strong>
       </div>
-      <DataList :label="'文件列表'" :data="fileList"/>
+      <DataList :label="'文件列表'" :data="fileList" @closeDrawer="onClose"/>
     </a-drawer>
   </div>
   
