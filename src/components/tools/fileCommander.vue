@@ -12,7 +12,7 @@ const fileContent = ref(null) // 文件内容缓存
 const showFileList = async (content) => {
     fileList.value = await dbOperations.getAllFiles()
     fileListModal.value = true
-    console.log(fileList.value)
+    // console.log(fileList.value)
     fileContent.value = content
 }
 
@@ -52,9 +52,9 @@ const saveFile = async (replace) => {
         content: fileContent.value,
         updateTime:dayjs().valueOf()
     }
-    console.log('要保存的文件',newFile)
+    // console.log('要保存的文件',newFile)
     if(!replace){
-        console.log('新存储')
+        // console.log('新存储')
         const hadSaved = await dbOperations.getFile(savedName.value)
         if (savedName.value.trim() === '') {// 判断名称是否为空
             saveAlertNONAME.value = true

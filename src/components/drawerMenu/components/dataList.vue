@@ -1,9 +1,40 @@
 <script setup>
-import { RightOutlined } from '@ant-design/icons-vue'
-import { ref,onMounted,watch } from 'vue'
+import { RightOutlined,ExclamationCircleOutlined } from '@ant-design/icons-vue'
+import { ref,onMounted,watch,h,defineEmits } from 'vue'
+import { message,Modal } from 'ant-design-vue'
 
+import { useAppStore } from '@/stores/app'
+const app = useAppStore()
 
 const isShow = ref(false)
+
+
+const emit = defineEmits(['closeDrawer'])
+const changeWorkFile = (file) => {
+  // console.log(file)
+  const temp = localStorage.getItem('fileTemp')
+  // console.log(temp)
+  if(temp){
+    Modal.confirm({
+      title: '提示',
+      icon: h(ExclamationCircleOutlined),
+      content: h('div', { style: '' }, '当前文件还未保存，确定要覆盖吗？'),
+      onOk() {
+        localStorage.setItem('fileTemp',file.content)
+        app.updateTemp(file.content)
+        message.success('已切换工作文件')
+        emit('closeDrawer')
+      },
+      onCancel() {
+        // console.log('Cancel')
+      },
+    })
+    return
+  }else{
+    app.updateTemp(file.content)
+    localStorage.setItem('fileTemp',file.content)
+  }
+}
 
 // 声明 props
 const props = defineProps({
@@ -35,7 +66,7 @@ const props = defineProps({
         <div class="line"></div>
       </div>
       <div v-if="data.length>0" style="flex-grow: 1;display: flex;flex-direction: column;gap: 3px;">
-        <div class="file-item" v-for="file in data">
+        <div class="file-item" v-for="file in data" @click="changeWorkFile(file)">
           {{ file.name }}
         </div>
       </div>
@@ -88,7 +119,7 @@ const props = defineProps({
   background: #efefef;
 }
 .file-item{
-  padding: 6px 8px;
+  padding: 8px 10px;
   border-radius: 12px;
   transition: 0.25s;
   &:hover{
