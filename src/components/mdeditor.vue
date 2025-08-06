@@ -33,6 +33,9 @@ const toolbars = [
     'revoke',
     'next',
     'save',
+    '-',
+    'fullscreen',
+    'previewOnly',
 ]
 
 
