@@ -46,7 +46,8 @@ const locale = zhCN
 body{
   margin: 0;
 }
-.md-editor-code-head{
-  position: relative;
+.md-editor-preview .md-editor-code .md-editor-code-head{
+  position: relative !important;
+  z-index: 1 !important;
 }
 </style>
